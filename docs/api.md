@@ -65,8 +65,32 @@ na_fila → processando → concluido | erro
 | `GET /api/v1/lotes/{id}/arquivos/{tipo}` | Baixa um artefato — ver a tabela abaixo |
 | `GET /api/v1/lotes/{id}/planilha/agente1` | Atalho para `arquivos/agente1_planilha` |
 | `GET /api/v1/lotes/{id}/planilha/agente2` | Atalho para `arquivos/agente2_planilha` |
+| `GET /api/v1/lotes/{id}/processo` | **Lotes de 1 PDF:** o relatório estruturado do processo, direto |
 | `GET /api/v1/processos?numero=...` | Consulta um processo pelo número CNJ |
 | `GET /health` | Healthcheck, sem autenticação. Não devolve dado de processo |
+
+### Envio unitário — um processo por chamada
+
+Desde a [v1.1.0](../releases/v1.1.0.md), quem manda **um PDF por vez** não
+precisa mais de três passos:
+
+```http
+1. POST /api/v1/lotes                    (1 PDF)  → 202 {"lote_id": "..."}
+2. GET  /api/v1/lotes/{lote_id}/processo          → o processo, estruturado
+```
+
+Antes era preciso ler o payload agregado de `/resultado` para descobrir o número
+extraído e então perguntar de novo em `/api/v1/processos`.
+
+| Código | Quando |
+| --- | --- |
+| `200` | O relatório do processo |
+| `409` | Lote ainda não concluído — continue o polling |
+| `422` | O lote **não tem exatamente 1 PDF**, ou dele saiu mais de um processo |
+| `404` | Lote de outro consumidor, inexistente, ou nenhum número pôde ser extraído |
+
+O `422` é deliberado: a rota não adivinha qual processo você quer num lote com
+vários. Nesse caso, use `/resultado`.
 
 ### Artefatos de um lote
 

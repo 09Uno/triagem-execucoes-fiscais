@@ -9,6 +9,39 @@ são marcos de desenvolvimento; o empacotamento para instalação começa na
 
 ---
 
+## [v1.1.0](releases/v1.1.0.md) — 01/09/2026 · ✅ pacote Docker
+
+Atende o acionamento unitário pedido pela PGMS e ataca o custo do OCR no uso
+repetido. **Nada quebra** — todos os interruptores novos têm padrão
+retrocompatível e nenhuma rota mudou de assinatura.
+
+**Novo**
+- `GET /api/v1/lotes/{id}/processo` — para quem manda **um PDF por vez**:
+  devolve o relatório estruturado do processo direto, sem o consumidor ter de ler
+  o número em `/resultado` e consultar de novo. `422` se o lote não tiver
+  exatamente 1 PDF e 1 processo. Também em `/painel/lotes/{id}/processo`
+- **Cache de OCR por hash do conteúdo do PDF** — página já reconhecida não é
+  reconhecida de novo. Renomear não engana o cache; PDF alterado é reprocessado.
+  `USAR_CACHE`, `CACHE_REFRESH`, `PASTA_CACHE`
+- **Rastreabilidade por página** — cada campo extraído mostra de qual página veio
+  e se foi por OCR
+- **Reaproveitamento entre corridas** — estado por processo, campo a campo, com
+  proveniência. Mesmo PDF com valor diferente **conserva o antigo e marca
+  conflito**, em vez de sobrescrever em silêncio. `USAR_MERGE`, `ESTADO_PATH`
+- **Extração parcial por etapa** (`CAMPOS=penhora`) — reprocessa só o que mudou,
+  com aviso visível, porque parcial não pode ir direto ao Agente 2
+- **Filtro de escopo** (`MODO_ESCOPO`) — PDFs fora de escopo não entram; o que foi
+  ignorado é logado e listado em `ignorados_V8.txt`
+
+**Robustez**
+- Escrita do estado compartilhado sob lock exclusivo de arquivo
+- `dados/` montado também no serviço de lote: cache e estado passam a ser a mesma
+  fonte de verdade para a web e para o batch
+- Cache e estado apontam, por padrão, para dentro dos volumes já obrigatórios —
+  não somem ao recriar o container
+
+---
+
 ## [v1.0.0](releases/v1.0.0.md) — 27/08/2026 · ✅ pacote Docker
 
 Primeira entrega instalável. Auditoria antes do empacotamento, com teste de

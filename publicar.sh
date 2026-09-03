@@ -21,11 +21,11 @@ REPO_DESC="Triagem automatizada de execucoes fiscais — pacote Docker, notas de
 # Onde procurar os arquivos para anexar na release v1.0.0.
 PASTA_PACOTES="${PASTA_PACOTES:-../Procuradorias}"
 
-# Arquivos a anexar em v1.0.0. Os que nao existirem sao ignorados com aviso.
-ASSETS_V1=(
-  "$PASTA_PACOTES/procuradorias-1.0.tar.gz"
+# Arquivos a anexar na release MAIS NOVA. Os que nao existirem sao ignorados
+# com aviso — e o script segue, em vez de falhar o deploy inteiro por um anexo.
+ASSETS=(
+  "$PASTA_PACOTES/procuradorias-1.1.tar.gz"
   "$PASTA_PACOTES/Guia de Instalacao - Triagem de Execucoes Fiscais.pdf"
-  "$PASTA_PACOTES/Guia de Instalacao - Triagem de Execucoes Fiscais.docx"
   "$PASTA_PACOTES/Manual - Triagem de Execucoes Fiscais.docx"
 )
 
@@ -97,12 +97,15 @@ for arquivo in $(ls releases/v*.md | sort -V); do
   fi
 done
 
-# ── 5. Anexar os pacotes na v1.0.0 ──────────────────────────────────
-diz "Anexando os pacotes em v1.0.0"
+# ── 5. Anexar os pacotes na release mais nova ───────────────────────
+# A tag alvo sai de releases/ — assim nao ha versao chumbada no script para
+# alguem esquecer de trocar na proxima entrega.
+TAG_PACOTES="$(basename "$(ls releases/v*.md | sort -V | tail -1)" .md)"
+diz "Anexando os pacotes em $TAG_PACOTES"
 encontrou=0
-for asset in "${ASSETS_V1[@]}"; do
+for asset in "${ASSETS[@]}"; do
   if [[ -f "$asset" ]]; then
-    rodar "gh release upload v1.0.0 --repo '$REPO' '$asset' --clobber"
+    rodar "gh release upload '$TAG_PACOTES' --repo '$REPO' '$asset' --clobber"
     ok "$(basename "$asset")"
     encontrou=1
   else

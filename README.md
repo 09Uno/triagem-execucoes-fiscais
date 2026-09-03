@@ -14,17 +14,14 @@ Mato Grosso do Sul (PGMS)**.
 
 ## ⬇️ Baixar a versão atual
 
-**[→ Releases](../../releases)** · versão estável: **[v1.0.0](../../releases/latest)**
+**[→ Releases](../../releases)** · versão estável: **[v1.1.0](../../releases/latest)**
 
-O **Guia de Instalação** e o **Manual** estão anexados na release.
-
-A **imagem Docker exportada** (`procuradorias-1.0.tar.gz`) é enviada **sob
-solicitação**, por canal direto — [abra uma issue](../../issues) para pedir.
-Recebida, instala com `docker load`: sem construir nada, sem clonar repositório e
-**sem acesso à internet no servidor**.
+A release traz a **imagem Docker exportada** (`procuradorias-1.1.tar.gz`, 169 MB),
+o **Guia de Instalação** e o **Manual**. Instala com `docker load`: sem construir
+nada, sem clonar repositório e **sem acesso à internet no servidor**.
 
 ```bash
-docker load < procuradorias-1.0.tar.gz
+docker load < procuradorias-1.1.tar.gz
 ```
 
 O passo a passo completo está em **[docs/instalacao.md](docs/instalacao.md)**.
@@ -107,7 +104,8 @@ Ver **[docs/seguranca-e-privacidade.md](docs/seguranca-e-privacidade.md)**.
 
 | Versão | Data | O que mudou | Pacote |
 | --- | --- | --- | --- |
-| **[v1.0.0](releases/v1.0.0.md)** | 27/08/2026 | **Primeira entrega instalável.** Isolamento entre consumidores, pico de memória de 1.648 MB → 243 MB, retenção automática em disco, 118 testes | ✅ Docker |
+| **[v1.1.0](releases/v1.1.0.md)** | 01/09/2026 | Consulta direta do processo de um lote (envio unitário), cache de OCR por hash, rastreabilidade por página, reaproveitamento entre corridas | ✅ Docker |
+| [v1.0.0](releases/v1.0.0.md) | 27/08/2026 | **Primeira entrega instalável.** Isolamento entre consumidores, pico de memória de 1.648 MB → 243 MB, retenção automática em disco, 118 testes | ✅ Docker |
 | [v0.6.0](releases/v0.6.0.md) | 23/08/2026 | Estabilização da consulta por processo e dos códigos de erro | — |
 | [v0.5.0](releases/v0.5.0.md) | 11/08/2026 | Agente 1 v8.0 — extração 100% determinística, fim do APTO / NÃO APTO | — |
 | [v0.4.0](releases/v0.4.0.md) | 04/08/2026 | Consulta de um processo pelo número CNJ | — |
@@ -145,6 +143,7 @@ requisição chegar ao sistema. É a causa mais comum de falha de implantação.
 | **[Instalação](docs/instalacao.md)** | Do `docker load` ao primeiro lote processado |
 | **[API v1](docs/api.md)** | Rotas, autenticação, ciclo de vida do lote, exemplos |
 | **[Segurança e privacidade](docs/seguranca-e-privacidade.md)** | Autenticação, isolamento entre consumidores, retenção de dados |
+| **[Perguntas da PGMS](docs/perguntas-da-pgms.md)** | Os sete pontos levantados na avaliação, com a resposta técnica de cada um |
 
 ---
 
