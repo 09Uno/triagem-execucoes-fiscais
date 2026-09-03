@@ -1,0 +1,10 @@
+# Este repositorio e a vitrine publica: notas de versao e documentacao.
+# Nada de codigo-fonte, nada de credencial, nada de dado de processo.
+*.tar
+*.tar.gz
+.env
+.DS_Store
+
+# Nota interna de operacao
+_COMO-PUBLICAR.md
+_DEPLOY-EASYPANEL.md
