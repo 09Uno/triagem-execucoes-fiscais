@@ -16,9 +16,12 @@ Mato Grosso do Sul (PGMS)**.
 
 **[→ Releases](../../releases)** · versão estável: **[v1.0.0](../../releases/latest)**
 
-O pacote é a **imagem Docker exportada** (`procuradorias-1.0.tar.gz`). Instala com
-`docker load`, sem construir nada, sem clonar repositório e **sem acesso à
-internet no servidor**.
+O **Guia de Instalação** e o **Manual** estão anexados na release.
+
+A **imagem Docker exportada** (`procuradorias-1.0.tar.gz`) é enviada **sob
+solicitação**, por canal direto — [abra uma issue](../../issues) para pedir.
+Recebida, instala com `docker load`: sem construir nada, sem clonar repositório e
+**sem acesso à internet no servidor**.
 
 ```bash
 docker load < procuradorias-1.0.tar.gz
